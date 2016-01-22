@@ -8,9 +8,13 @@ import state from './state'
 import Sitemap from './components/sitemap'
 
 export default class App extends Component {
-  constructor() {
+  constructor(props) {
     super()
     this.state = state.get()
+
+    this.update = (href, id, value) => {
+      update(href, id, value, props.beforeUpdate, props.afterUpdate)
+    }
   }
 
   componentDidMount() {
@@ -33,7 +37,7 @@ export default class App extends Component {
         <Document
           executeAction={executeAction}
           resource={this.state.resources[this.state.resources.current]}
-          update={update} />
+          update={this.update} />
       </div>
     )
   }

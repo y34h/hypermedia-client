@@ -7,7 +7,9 @@ export default ({ navigate, property, topLevel, update }) => (
       const Element = factory(property)
 
       return (
-        <div className='ct-element' key={property.id}>
+        <div
+          className={cx({'input-field': Element.name == 'Input'}, 'ct-element')}
+          key={property.id}>
           <label className='ct-element-label'>
             {property.title}
           </label>

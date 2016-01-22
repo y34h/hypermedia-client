@@ -30,9 +30,18 @@ async function loadSitemap(resource) {
   await requestResource({ href, method: 'get', resourceKey: 'sitemap' })
 }
 
-async function processRequest({ data, href, id, method, resourceKey }) {
+async function processRequest(
+  { data, href, id, method, resourceKey, before, after }) {
   try {
+    if (before) {
+      before({ data, href, id, method, resourceKey})
+    }
+
     const response = await request(method, href, data)
+
+    if (after) {
+      after({ data, href, id, method, resourceKey, response})
+    }
 
     if (response == null) {
       return
@@ -85,6 +94,12 @@ export function navigate(href) {
   requestResource({ href, method: 'get', resourceKey: 'current' })
 }
 
-export function update(href, id, value) {
-  requestResource({ data: { [id]: value }, href, method: 'post' })
+export function update(href, id, value, before, after) {
+  requestResource({
+    data: { [id]: value },
+    href,
+    method: 'post',
+    before,
+    after,
+  })
 }

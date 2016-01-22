@@ -21,5 +21,15 @@ export async function request(method, href, data) {
     return null
   }
 
+  if (response.status == 404) {
+    return {
+      title: 'Process Complete!',
+      type: 'object',
+      links: [{ rel: 'self' }],
+      properties: [],
+      errors: [],
+    }
+  }
+
   throw Error(`${response.status}: ${response.statusText}`)
 }
